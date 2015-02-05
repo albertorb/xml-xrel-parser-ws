@@ -21,5 +21,47 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+         <groupId>com.sun.xml.ws</groupId>
+         <artifactId>jaxws-rt</artifactId>
+         <version>2.2.5</version>
+         <scope>compile</scope>
+      </dependency>
   </dependencies>
+
+   <build>
+      <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+               <source>1.7</source>
+               <target>1.7</target>
+               <compilerVersion>1.7</compilerVersion>
+            </configuration>
+         </plugin>
+
+         <!--
+         	Revisar, pues no funciona.
+         <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>jaxws-maven-plugin</artifactId>
+            <executions>
+               <execution>
+                  <id>wsparser</id>
+                  <goals>
+                     <goal>wsgen</goal>
+                  </goals>
+                  <configuration>
+                     <sei>com.aptus.wsParserServer.wService</sei>
+                     <genWsdl>true</genWsdl>
+                     <resourceDestDir>src/main/wsdl/</resourceDestDir>
+                  </configuration>
+               </execution>
+            </executions>
+         </plugin>
+     	-->
+      </plugins>
+   </build>
+
 </project>
