@@ -1,4 +1,4 @@
-package com.aptus.wsParserServer.model;
+package com.aptus.parser.model;
 
 import java.io.Serializable;
 import javax.persistence.*;

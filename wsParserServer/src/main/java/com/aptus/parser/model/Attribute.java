@@ -1,20 +1,20 @@
-package com.aptus.wsParserServer.model;
+package com.aptus.parser.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
 
 
 /**
- * The persistent class for the text database table.
+ * The persistent class for the attribute database table.
  * 
  */
 @javax.persistence.Entity
-@NamedQuery(name="Text.findAll", query="SELECT t FROM Text t")
-public class Text implements Serializable {
+@NamedQuery(name="Attribute.findAll", query="SELECT a FROM Attribute a")
+public class Attribute implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
-	private TextPK id;
+	private AttributePK id;
 
 	@Lob
 	private String value;
@@ -29,14 +29,14 @@ public class Text implements Serializable {
 	@JoinColumn(name="pathID")
 	private Path path;
 
-	public Text() {
+	public Attribute() {
 	}
 
-	public TextPK getId() {
+	public AttributePK getId() {
 		return this.id;
 	}
 
-	public void setId(TextPK id) {
+	public void setId(AttributePK id) {
 		this.id = id;
 	}
 

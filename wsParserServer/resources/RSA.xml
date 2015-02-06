@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<composition>
+    <name>nombre</name>
+    <archetypeId>aarchetypeId</archetypeId>
+    <rcId>rcId</rcId>
+    <meaning>meaning</meaning>
+    <synthesised>false</synthesised>
+    <sensitivity>0</sensitivity>
+    <origParentRef></origParentRef>
+    <sessionTime/>
+    <territory></territory>
+    <contributionId></contributionId>
+    <contents xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Section">
+        <name>nombre</name>
+        <archetypeId>aarchetypeId</archetypeId>
+        <rcId>rcId</rcId>
+        <meaning>meaning</meaning>
+        <synthesised>false</synthesised>
+        <sensitivity>0</sensitivity>
+        <origParentRef></origParentRef>
+        <members xsi:type="Entry">
+            <name>nombre</name>
+            <archetypeId>aarchetypeId</archetypeId>
+            <rcId>rcId</rcId>
+            <meaning>meaning</meaning>
+            <synthesised>false</synthesised>
+            <sensitivity>0</sensitivity>
+            <origParentRef></origParentRef>
+            <actId>actId</actId>
+            <actStatus>actStatus</actStatus>
+            <uncertaintyExpressed>false</uncertaintyExpressed>
+            <subjectOfInformationCategory>subjectOfInformationCategory</subjectOfInformationCategory>
+            <items xsi:type="Element">
+                <name>nombre</name>
+                <archetypeId>aarchetypeId</archetypeId>
+                <rcId>rcId</rcId>
+                <meaning>meaning</meaning>
+                <synthesised>false</synthesised>
+                <sensitivity>0</sensitivity>
+                <origParentRef></origParentRef>
+                <emphasis></emphasis>
+                <obsTime/>
+                <itemCategory></itemCategory>
+                <value>
+                    <nullFlavor xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">value1</nullFlavor>
+                </value>
+            </items>
+            <items xsi:type="Element">
+                <name>nombre</name>
+                <archetypeId>aarchetypeId</archetypeId>
+                <rcId>rcId</rcId>
+                <meaning>meaning</meaning>
+                <synthesised>false</synthesised>
+                <sensitivity>0</sensitivity>
+                <origParentRef></origParentRef>
+                <emphasis></emphasis>
+                <obsTime/>
+                <itemCategory></itemCategory>
+                <value>
+                    <nullFlavor xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">value2</nullFlavor>
+                </value>
+            </items>
+        </members>
+        <members xsi:type="Entry">
+            <name>nombre</name>
+            <archetypeId>aarchetypeId</archetypeId>
+            <rcId>rcId</rcId>
+            <meaning>meaning</meaning>
+            <synthesised>false</synthesised>
+            <sensitivity>0</sensitivity>
+            <origParentRef></origParentRef>
+            <actId>actId</actId>
+            <actStatus>actStatus</actStatus>
+            <uncertaintyExpressed>false</uncertaintyExpressed>
+            <subjectOfInformationCategory>subjectOfInformationCategory</subjectOfInformationCategory>
+            <items xsi:type="Element">
+                <name>nombre</name>
+                <archetypeId>aarchetypeId</archetypeId>
+                <rcId>rcId</rcId>
+                <meaning>meaning</meaning>
+                <synthesised>false</synthesised>
+                <sensitivity>0</sensitivity>
+                <origParentRef></origParentRef>
+                <emphasis></emphasis>
+                <obsTime/>
+                <itemCategory></itemCategory>
+                <value>
+                    <nullFlavor xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">value1</nullFlavor>
+                </value>
+            </items>
+            <items xsi:type="Element">
+                <name>nombre</name>
+                <archetypeId>aarchetypeId</archetypeId>
+                <rcId>rcId</rcId>
+                <meaning>meaning</meaning>
+                <synthesised>false</synthesised>
+                <sensitivity>0</sensitivity>
+                <origParentRef></origParentRef>
+                <emphasis></emphasis>
+                <obsTime/>
+                <itemCategory></itemCategory>
+                <value>
+                    <nullFlavor xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">value2</nullFlavor>
+                </value>
+            </items>
+            <items xsi:type="Element">
+                <name>nombre</name>
+                <archetypeId>aarchetypeId</archetypeId>
+                <rcId>rcId</rcId>
+                <meaning>meaning</meaning>
+                <synthesised>false</synthesised>
+                <sensitivity>0</sensitivity>
+                <origParentRef></origParentRef>
+                <emphasis></emphasis>
+                <obsTime/>
+                <itemCategory></itemCategory>
+                <value>
+                    <nullFlavor xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">value3</nullFlavor>
+                </value>
+            </items>
+        </members>
+    </contents>
+    <contents xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Section">
+        <name>nombre</name>
+        <archetypeId>aarchetypeId</archetypeId>
+        <rcId>rcId</rcId>
+        <meaning>meaning</meaning>
+        <synthesised>false</synthesised>
+        <sensitivity>0</sensitivity>
+        <origParentRef></origParentRef>
+    </contents>
+</composition>

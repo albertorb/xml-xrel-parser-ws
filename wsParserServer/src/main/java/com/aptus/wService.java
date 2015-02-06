@@ -1,6 +1,6 @@
 // WebService class
 
-package com.aptus.wsParserServer;
+package com.aptus;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;

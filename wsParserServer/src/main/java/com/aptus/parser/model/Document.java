@@ -1,55 +1,61 @@
-package com.aptus.wsParserServer.model;
+package com.aptus.parser.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 
 /**
- * The persistent class for the path database table.
+ * The persistent class for the document database table.
  * 
  */
 @javax.persistence.Entity
-@NamedQuery(name="Path.findAll", query="SELECT p FROM Path p")
-public class Path implements Serializable {
+@NamedQuery(name="Document.findAll", query="SELECT d FROM Document d")
+public class Document implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int pathID;
+	private int docID;
 
-	@Lob
-	private String pathexp;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date date;
 
 	//bi-directional many-to-one association to Attribute
-	@OneToMany(mappedBy="path")
+	@OneToMany(mappedBy="document")
 	private List<Attribute> attributes;
 
 	//bi-directional many-to-one association to Element
-	@OneToMany(mappedBy="path")
+	@OneToMany(mappedBy="document")
 	private List<Element> elements;
 
 	//bi-directional many-to-one association to Text
-	@OneToMany(mappedBy="path")
+	@OneToMany(mappedBy="document")
 	private List<Text> texts;
 
-	public Path() {
+	//bi-directional many-to-one association to Entity
+	@ManyToOne
+	@JoinColumn(name="entityID")
+	private Entity entity;
+
+	public Document() {
 	}
 
-	public int getPathID() {
-		return this.pathID;
+	public int getDocID() {
+		return this.docID;
 	}
 
-	public void setPathID(int pathID) {
-		this.pathID = pathID;
+	public void setDocID(int docID) {
+		this.docID = docID;
 	}
 
-	public String getPathexp() {
-		return this.pathexp;
+	public Date getDate() {
+		return this.date;
 	}
 
-	public void setPathexp(String pathexp) {
-		this.pathexp = pathexp;
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 	public List<Attribute> getAttributes() {
@@ -62,14 +68,14 @@ public class Path implements Serializable {
 
 	public Attribute addAttribute(Attribute attribute) {
 		getAttributes().add(attribute);
-		attribute.setPath(this);
+		attribute.setDocument(this);
 
 		return attribute;
 	}
 
 	public Attribute removeAttribute(Attribute attribute) {
 		getAttributes().remove(attribute);
-		attribute.setPath(null);
+		attribute.setDocument(null);
 
 		return attribute;
 	}
@@ -84,14 +90,14 @@ public class Path implements Serializable {
 
 	public Element addElement(Element element) {
 		getElements().add(element);
-		element.setPath(this);
+		element.setDocument(this);
 
 		return element;
 	}
 
 	public Element removeElement(Element element) {
 		getElements().remove(element);
-		element.setPath(null);
+		element.setDocument(null);
 
 		return element;
 	}
@@ -106,16 +112,24 @@ public class Path implements Serializable {
 
 	public Text addText(Text text) {
 		getTexts().add(text);
-		text.setPath(this);
+		text.setDocument(this);
 
 		return text;
 	}
 
 	public Text removeText(Text text) {
 		getTexts().remove(text);
-		text.setPath(null);
+		text.setDocument(null);
 
 		return text;
+	}
+
+	public Entity getEntity() {
+		return this.entity;
+	}
+
+	public void setEntity(Entity entity) {
+		this.entity = entity;
 	}
 
 }

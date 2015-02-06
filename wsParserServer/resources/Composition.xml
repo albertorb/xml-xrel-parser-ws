@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<composition>
+	<listOfSections>
+		<listOfEntrys>
+			<value>value1</value>
+		</listOfEntrys>
+	</listOfSections>
+	<listOfSections>
+		<listOfEntrys>
+			<value>value1</value>
+		</listOfEntrys>
+		<listOfEntrys>
+			<value>value2</value>
+		</listOfEntrys>
+	</listOfSections>
+</composition>

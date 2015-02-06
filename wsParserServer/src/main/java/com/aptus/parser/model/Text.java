@@ -1,24 +1,23 @@
-package com.aptus.wsParserServer.model;
+package com.aptus.parser.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
 
 
 /**
- * The persistent class for the element database table.
+ * The persistent class for the text database table.
  * 
  */
 @javax.persistence.Entity
-@NamedQuery(name="Element.findAll", query="SELECT e FROM Element e")
-public class Element implements Serializable {
+@NamedQuery(name="Text.findAll", query="SELECT t FROM Text t")
+public class Text implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
-	private ElementPK id;
+	private TextPK id;
 
-	private int index;
-
-	private int reindex;
+	@Lob
+	private String value;
 
 	//bi-directional many-to-one association to Document
 	@ManyToOne
@@ -30,31 +29,23 @@ public class Element implements Serializable {
 	@JoinColumn(name="pathID")
 	private Path path;
 
-	public Element() {
+	public Text() {
 	}
 
-	public ElementPK getId() {
+	public TextPK getId() {
 		return this.id;
 	}
 
-	public void setId(ElementPK id) {
+	public void setId(TextPK id) {
 		this.id = id;
 	}
 
-	public int getIndex() {
-		return this.index;
+	public String getValue() {
+		return this.value;
 	}
 
-	public void setIndex(int index) {
-		this.index = index;
-	}
-
-	public int getReindex() {
-		return this.reindex;
-	}
-
-	public void setReindex(int reindex) {
-		this.reindex = reindex;
+	public void setValue(String value) {
+		this.value = value;
 	}
 
 	public Document getDocument() {
