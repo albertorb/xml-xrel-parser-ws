@@ -2,8 +2,13 @@
 // XML to REL parser implementation
 package com.aptus.parser;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,22 +18,40 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathFactory;
 
-import com.aptus.parser.model.Path;
-import com.aptus.parser.model.Element;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.aptus.parser.model.Element;
+import com.aptus.parser.model.Path;
+
 public class XML2REL {
 
+	private static StringBuilder document = new StringBuilder();
+
 	public static com.aptus.parser.model.Element createElement(Node node,
-			Integer index, Integer reindex) {
+			Integer index, Integer reindex, Integer laststart, Integer lastend) {
 		com.aptus.parser.model.Element res = new com.aptus.parser.model.Element();
+		com.aptus.parser.model.ElementPK res2 = new com.aptus.parser.model.ElementPK();
+		res.setId(res2);
 		res.setPath(getPath(node));
 		res.setIndex(index);
 		res.setReindex(reindex);
+		// System.out.println(document);
+		// System.out.println("<" + node.getNodeName() + ">");
+		// + node.getNodeName() + ">"
+		// Integer start = document.indexOf("<",
+		// laststart);
+		// Integer end = document.lastIndexOf("</");
+		// if (document.indexOf(">") != -1 || document.lastIndexOf(">") != -1) {
+		// int b = document.indexOf(">");
+		// int c = document.lastIndexOf(">");
+		// document.delete(start, b);
+		// document.delete(end, c);
+		// }
+		// res2.setStart(start);
+		// res2.setEnd(end);
 		return res;
 	}
 
@@ -43,19 +66,36 @@ public class XML2REL {
 		List<com.aptus.parser.model.Element> res = accum;
 		Integer m = 0;
 		Integer n = m + 1;
+		Integer lastStart = 0;
+		Integer lastEnd = 0;
+		if (!accum.isEmpty()) {
+			lastStart = accum.get(accum.size() - 1).getId().getStart();
+			lastEnd = accum.get(accum.size() - 1).getId().getEnd();
+		}
 
 		while (m < nodes.getLength()) {
 			Node item = nodes.item(m);
+			NodeList childs = item.getChildNodes();
+
+			// for (int i = 0; i < childs.getLength(); i++) {
+			// Node nd = childs.item(i);
+			// if (isText(nd)) {
+			// item.removeChild(nd);
+			// }
+			// }
 			if (item.getChildNodes().getLength() > 1) {
-				addElements(getElements(item.getChildNodes(), accum), accum);
+				addElements(getElements(childs, accum), accum);
 				if (n == 1) {
-					accum.add(createElement(item, n, nodes.getLength() - n));
+					accum.add(createElement(item, n, nodes.getLength() - n,
+							lastStart, lastEnd));
 				}
 			} else {
 				if (!isText(item)) {
-					accum.add(createElement(item, n, nodes.getLength() - n));
+					accum.add(createElement(item, n, nodes.getLength() - n,
+							lastStart, lastEnd));
 					n++;
 				}
+
 			}
 			m++;
 		}
@@ -69,12 +109,23 @@ public class XML2REL {
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db;
 		List<com.aptus.parser.model.Element> res = new ArrayList<com.aptus.parser.model.Element>();
+		byte[] encoded;
+		try {
+			encoded = Files.readAllBytes(Paths.get(xmlpath));
+			String a = new String(encoded);
+			document = new StringBuilder(a);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		dbf.setNamespaceAware(true);
 
 		try {
 			db = dbf.newDocumentBuilder();
+
 			Document doc = db.parse(new File(xmlpath));
+
 			NodeList nl = doc.getChildNodes(); // XREL Documents
 			// List<com.aptus.parser.model.Document> docs = new
 			// ArrayList<com.aptus.parser.model.Document>();
@@ -121,6 +172,24 @@ public class XML2REL {
 
 		res.setPathexp(path);
 		return res;
+	}
+
+	public static void setStartEnd(Integer s, Integer e, String name,
+			String filepath) {
+
+		try (BufferedReader br = new BufferedReader(new FileReader(filepath))) {
+			for (String line; (line = br.readLine()) != null;) {
+				// process the line.
+
+			}
+			// line is not visible here.
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 
 }
