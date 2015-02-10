@@ -19,6 +19,7 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -29,11 +30,14 @@ import com.aptus.parser.model.Path;
 public class XML2REL {
 
 	private static StringBuilder document = new StringBuilder();
+	private static com.aptus.parser.model.Document doc = null;
 
-	public static com.aptus.parser.model.Element createElement(Node node,
-			Integer index, Integer reindex, Integer laststart, Integer lastend) {
+	public static com.aptus.parser.model.Element createElement(
+			com.aptus.parser.model.Document doc, Node node, Integer index,
+			Integer reindex, Integer laststart, Integer lastend) {
 		com.aptus.parser.model.Element res = new com.aptus.parser.model.Element();
 		com.aptus.parser.model.ElementPK res2 = new com.aptus.parser.model.ElementPK();
+		// res2.setDocID(doc.getDocID()); TODO Solve NULL
 		res.setId(res2);
 		res.setPath(getPath(node));
 		res.setIndex(index);
@@ -76,6 +80,7 @@ public class XML2REL {
 		while (m < nodes.getLength()) {
 			Node item = nodes.item(m);
 			NodeList childs = item.getChildNodes();
+			// com.aptus.parser.model.Document doc = null;
 
 			// for (int i = 0; i < childs.getLength(); i++) {
 			// Node nd = childs.item(i);
@@ -83,16 +88,30 @@ public class XML2REL {
 			// item.removeChild(nd);
 			// }
 			// }
+			if (item.getParentNode().equals(null)) {
+				doc = new com.aptus.parser.model.Document();
+				doc.setDate(null); // TODO setDate DOC
+
+			}
+
 			if (item.getChildNodes().getLength() > 1) {
 				addElements(getElements(childs, accum), accum);
 				if (n == 1) {
-					accum.add(createElement(item, n, nodes.getLength() - n,
-							lastStart, lastEnd));
+					accum.add(createElement(doc, item, n,
+							nodes.getLength() - n, lastStart, lastEnd));
+					if (item.hasAttributes()) {
+						// Integer docid = doc.getDocID();// TODO Solve NULL
+						createAttributes(item, "@", 1);// TODO Solve docid
+					}
 				}
 			} else {
 				if (!isText(item)) {
-					accum.add(createElement(item, n, nodes.getLength() - n,
-							lastStart, lastEnd));
+					accum.add(createElement(doc, item, n,
+							nodes.getLength() - n, lastStart, lastEnd));
+					if (item.hasAttributes()) {
+						// Integer docid = doc.getDocID();// TODO Solve NULL
+						createAttributes(item, "@", 1);// TODO Solve docid
+					}
 					n++;
 				}
 
@@ -100,6 +119,32 @@ public class XML2REL {
 			m++;
 		}
 		return res;
+	}
+
+	public static List<com.aptus.parser.model.Attribute> createAttributes(
+			Node item, String type, Integer docID) {
+		// TODO Auto-generated method stub
+		List<com.aptus.parser.model.Attribute> res = new ArrayList<com.aptus.parser.model.Attribute>();
+		NamedNodeMap attrs = item.getAttributes();
+		for (int i = 0; i < attrs.getLength(); i++) {
+			Node elem = attrs.item(i);
+			// String name = elem.getNodeName();
+			String value = elem.getNodeValue();
+			com.aptus.parser.model.Attribute temp = new com.aptus.parser.model.Attribute();
+			com.aptus.parser.model.AttributePK temp2 = new com.aptus.parser.model.AttributePK();
+			temp.setValue(value);
+			// com.aptus.parser.model.Path path = new
+			// com.aptus.parser.model.Path();
+			// path.setPathexp();
+			temp.setPath(getPathAttr(elem,item));
+			// temp.setDocument();
+			// TODO temp2 setDOCID etc
+			temp2.setDocID(docID);
+			res.add(temp);
+		}
+
+		return res;
+
 	}
 
 	public static List<Element> parse(String xmlpath) {
@@ -128,7 +173,7 @@ public class XML2REL {
 
 			NodeList nl = doc.getChildNodes(); // XREL Documents
 			// List<com.aptus.parser.model.Document> docs = new
-			// ArrayList<com.aptus.parser.model.Document>();
+			// ArrayList<com.aptus.parser.model.Document>();F
 			res = getElements(nl,
 					new ArrayList<com.aptus.parser.model.Element>());
 
@@ -153,13 +198,37 @@ public class XML2REL {
 		return false;
 	}
 
+	public static Path getPathAttr(Node node, Node owner) {
+		Path res = new Path();
+		if (node.getNodeName().equals("#text")) {
+			throw new IllegalArgumentException(
+					"Error #text: Se está tomando como elemento un espacio en blanco entre dos etiquetas");
+		}
+
+		String path = "#/" + owner.getNodeName() + "#/@" + node.getNodeName();
+		Node aux = owner.getParentNode();
+		while (aux != null) {
+			if (!(aux.getNodeName().equals("#text"))
+					&& !(aux.getNodeName().equals("#document"))) {
+				path = "#/" + aux.getNodeName() + path;
+			}
+
+			aux = aux.getParentNode();
+		}
+		System.out.println(path);
+		res.setPathexp(path);
+		return res;
+	}
+
 	public static Path getPath(Node node) {
 		Path res = new Path();
 		if (node.getNodeName().equals("#text")) {
 			throw new IllegalArgumentException(
 					"Error #text: Se está tomando como elemento un espacio en blanco entre dos etiquetas");
 		}
+
 		String path = "#/" + node.getNodeName();
+
 		Node aux = node.getParentNode();
 		while (aux != null) {
 			if (!(aux.getNodeName().equals("#text"))
@@ -169,7 +238,7 @@ public class XML2REL {
 
 			aux = aux.getParentNode();
 		}
-
+		System.out.println(path);
 		res.setPathexp(path);
 		return res;
 	}
