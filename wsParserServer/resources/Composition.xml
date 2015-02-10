@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<composition>
-	<listOfSections>
-		<listOfEntrys>
-			<value>value1</value>
+<composition attr="at000">
+	<listOfSections attr="at001">
+		<listOfEntrys attr="at002">
+			<value attr="at003">value1</value>
 		</listOfEntrys>
 	</listOfSections>
-	<listOfSections>
-		<listOfEntrys>
-			<value>value1</value>
+	<listOfSections attr="at004">
+		<listOfEntrys attr="at005">
+			<value attr="at006"> value1</value>
 		</listOfEntrys>
-		<listOfEntrys>
-			<value>value2</value>
+		<listOfEntrys attr="at007">
+			<value attr="at008">value2</value>
 		</listOfEntrys>
 	</listOfSections>
 </composition>

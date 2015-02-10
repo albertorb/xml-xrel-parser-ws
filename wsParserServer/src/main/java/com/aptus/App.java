@@ -14,8 +14,8 @@ public class App {
 	public static void main(String[] args) {
 		System.out.println("Elementos obtenidos del XML");
 		List<com.aptus.parser.model.Element> res = XML2REL
-				.parse("resources/RSA.xml");
+				.parse("resources/Composition.xml");
 		System.out.println(res.size());
-		Endpoint.publish("http://localhost:8080/wService", new wService());
+		// Endpoint.publish("http://localhost:8080/wService", new wService());
 	}
 }
