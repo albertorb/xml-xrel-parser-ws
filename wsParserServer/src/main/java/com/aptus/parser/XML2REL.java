@@ -26,6 +26,7 @@ import org.xml.sax.SAXException;
 
 import com.aptus.parser.model.Element;
 import com.aptus.parser.model.Path;
+import com.aptus.parser.model.Text;
 
 public class XML2REL {
 
@@ -101,7 +102,12 @@ public class XML2REL {
 							nodes.getLength() - n, lastStart, lastEnd));
 					if (item.hasAttributes()) {
 						// Integer docid = doc.getDocID();// TODO Solve NULL
-						createAttributes(item, "@", 1);// TODO Solve docid
+						createAttributes(item, 1);// TODO Solve docid
+					}
+
+					if (item.getNodeName().equals("nullFlavor")) {
+						System.out.println(item.getTextContent());
+						createText(item);
 					}
 				}
 			} else {
@@ -110,7 +116,12 @@ public class XML2REL {
 							nodes.getLength() - n, lastStart, lastEnd));
 					if (item.hasAttributes()) {
 						// Integer docid = doc.getDocID();// TODO Solve NULL
-						createAttributes(item, "@", 1);// TODO Solve docid
+						createAttributes(item, 1);// TODO Solve docid
+					}
+
+					if (item.getNodeName().equals("nullFlavor")) {
+						System.out.println(item.getTextContent());
+						createText(item);
 					}
 					n++;
 				}
@@ -121,8 +132,16 @@ public class XML2REL {
 		return res;
 	}
 
+	public static com.aptus.parser.model.Text createText(Node node) {
+		com.aptus.parser.model.Text res = new com.aptus.parser.model.Text();
+		res.setValue(node.getNodeValue());
+		com.aptus.parser.model.Path path = getPath(node);
+		res.setPath(path);
+		return res;
+	}
+
 	public static List<com.aptus.parser.model.Attribute> createAttributes(
-			Node item, String type, Integer docID) {
+			Node item, Integer docID) {
 		// TODO Auto-generated method stub
 		List<com.aptus.parser.model.Attribute> res = new ArrayList<com.aptus.parser.model.Attribute>();
 		NamedNodeMap attrs = item.getAttributes();
@@ -136,7 +155,7 @@ public class XML2REL {
 			// com.aptus.parser.model.Path path = new
 			// com.aptus.parser.model.Path();
 			// path.setPathexp();
-			temp.setPath(getPathAttr(elem,item));
+			temp.setPath(getPathAttr(elem, item));
 			// temp.setDocument();
 			// TODO temp2 setDOCID etc
 			temp2.setDocID(docID);
@@ -222,17 +241,14 @@ public class XML2REL {
 
 	public static Path getPath(Node node) {
 		Path res = new Path();
-		if (node.getNodeName().equals("#text")) {
-			throw new IllegalArgumentException(
-					"Error #text: Se está tomando como elemento un espacio en blanco entre dos etiquetas");
-		}
-
 		String path = "#/" + node.getNodeName();
 
 		Node aux = node.getParentNode();
 		while (aux != null) {
 			if (!(aux.getNodeName().equals("#text"))
 					&& !(aux.getNodeName().equals("#document"))) {
+				path = "#/" + aux.getNodeName() + path;
+			} else if (aux.getNodeName().equals("value")) {
 				path = "#/" + aux.getNodeName() + path;
 			}
 
