@@ -3,13 +3,12 @@ package com.aptus.parser.model;
 import java.io.Serializable;
 import javax.persistence.*;
 
-
 /**
  * The persistent class for the element database table.
  * 
  */
 @javax.persistence.Entity
-@NamedQuery(name="Element.findAll", query="SELECT e FROM Element e")
+@NamedQuery(name = "Element.findAll", query = "SELECT e FROM Element e")
 public class Element implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -20,14 +19,14 @@ public class Element implements Serializable {
 
 	private int reindex;
 
-	//bi-directional many-to-one association to Document
+	// bi-directional many-to-one association to Document
 	@ManyToOne
-	@JoinColumn(name="docID")
+	@JoinColumn(name = "docID")
 	private Document document;
 
-	//bi-directional many-to-one association to Path
+	// bi-directional many-to-one association to Path
 	@ManyToOne
-	@JoinColumn(name="pathID")
+	@JoinColumn(name = "pathID")
 	private Path path;
 
 	public Element() {
@@ -73,4 +72,4 @@ public class Element implements Serializable {
 		this.path = path;
 	}
 
-}
+ }

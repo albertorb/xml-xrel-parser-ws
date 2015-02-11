@@ -3,13 +3,12 @@ package com.aptus.parser.model;
 import java.io.Serializable;
 import javax.persistence.*;
 
-
 /**
  * The persistent class for the text database table.
  * 
  */
 @javax.persistence.Entity
-@NamedQuery(name="Text.findAll", query="SELECT t FROM Text t")
+@NamedQuery(name = "Text.findAll", query = "SELECT t FROM Text t")
 public class Text implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -19,14 +18,14 @@ public class Text implements Serializable {
 	@Lob
 	private String value;
 
-	//bi-directional many-to-one association to Document
+	// bi-directional many-to-one association to Document
 	@ManyToOne
-	@JoinColumn(name="docID")
+	@JoinColumn(name = "docID")
 	private Document document;
 
-	//bi-directional many-to-one association to Path
+	// bi-directional many-to-one association to Path
 	@ManyToOne
-	@JoinColumn(name="pathID")
+	@JoinColumn(name = "pathID")
 	private Path path;
 
 	public Text() {
