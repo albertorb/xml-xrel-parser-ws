@@ -26,7 +26,6 @@ import org.xml.sax.SAXException;
 
 import com.aptus.parser.model.Element;
 import com.aptus.parser.model.Path;
-import com.aptus.parser.model.Text;
 
 public class XML2REL {
 
@@ -43,20 +42,6 @@ public class XML2REL {
 		res.setPath(getPath(node));
 		res.setIndex(index);
 		res.setReindex(reindex);
-		// System.out.println(document);
-		// System.out.println("<" + node.getNodeName() + ">");
-		// + node.getNodeName() + ">"
-		// Integer start = document.indexOf("<",
-		// laststart);
-		// Integer end = document.lastIndexOf("</");
-		// if (document.indexOf(">") != -1 || document.lastIndexOf(">") != -1) {
-		// int b = document.indexOf(">");
-		// int c = document.lastIndexOf(">");
-		// document.delete(start, b);
-		// document.delete(end, c);
-		// }
-		// res2.setStart(start);
-		// res2.setEnd(end);
 		return res;
 	}
 
@@ -73,22 +58,10 @@ public class XML2REL {
 		Integer n = m + 1;
 		Integer lastStart = 0;
 		Integer lastEnd = 0;
-		if (!accum.isEmpty()) {
-			lastStart = accum.get(accum.size() - 1).getId().getStart();
-			lastEnd = accum.get(accum.size() - 1).getId().getEnd();
-		}
-
 		while (m < nodes.getLength()) {
 			Node item = nodes.item(m);
 			NodeList childs = item.getChildNodes();
-			// com.aptus.parser.model.Document doc = null;
 
-			// for (int i = 0; i < childs.getLength(); i++) {
-			// Node nd = childs.item(i);
-			// if (isText(nd)) {
-			// item.removeChild(nd);
-			// }
-			// }
 			if (item.getParentNode().equals(null)) {
 				doc = new com.aptus.parser.model.Document();
 				doc.setDate(null); // TODO setDate DOC
@@ -223,13 +196,23 @@ public class XML2REL {
 			throw new IllegalArgumentException(
 					"Error #text: Se está tomando como elemento un espacio en blanco entre dos etiquetas");
 		}
-
-		String path = "#/" + owner.getNodeName() + "#/@" + node.getNodeName();
+		Node nowneratid = owner.getAttributes().getNamedItem("archetypeId");
+		String owneratid = "";
+		if (nowneratid != null) {
+			owneratid = "[" + nowneratid.getNodeValue() + "]";
+		}
+		String path = "/" + owner.getNodeName() + owneratid + "/@"
+				+ node.getNodeName();
 		Node aux = owner.getParentNode();
+		String atid = "";
 		while (aux != null) {
 			if (!(aux.getNodeName().equals("#text"))
 					&& !(aux.getNodeName().equals("#document"))) {
-				path = "#/" + aux.getNodeName() + path;
+				Node natid = aux.getAttributes().getNamedItem("archetypeId");
+				if (natid != null) {
+					atid = "[" + natid.getNodeValue() + "]";
+				}
+				path = "/" + aux.getNodeName() + atid + path;
 			}
 
 			aux = aux.getParentNode();
@@ -241,18 +224,29 @@ public class XML2REL {
 
 	public static Path getPath(Node node) {
 		Path res = new Path();
-		String path = "#/" + node.getNodeName();
+		Node noatid = node.getAttributes().getNamedItem("archetypeId");
+		String oatid = "";
+		if (noatid != null) {
+			oatid = "[" + noatid.getNodeValue() + "]";
+		}
+		String path = "/" + node.getNodeName() + oatid;
 
 		Node aux = node.getParentNode();
+		String atid = "";
 		while (aux != null) {
 			if (!(aux.getNodeName().equals("#text"))
 					&& !(aux.getNodeName().equals("#document"))) {
-				path = "#/" + aux.getNodeName() + path;
-			} else if (aux.getNodeName().equals("value")) {
-				path = "#/" + aux.getNodeName() + path;
-			}
+				Node natid = aux.getAttributes().getNamedItem("archetypeId");
+				if (natid != null) {
+					atid = "[" + natid.getNodeValue() + "]";
+				}
 
+				path = "/" + aux.getNodeName() + atid + path;
+			} else if (aux.getNodeName().equals("value")) {
+				path = "/" + aux.getNodeName() + atid + path;
+			}
 			aux = aux.getParentNode();
+
 		}
 		System.out.println(path);
 		res.setPathexp(path);
